@@ -57,3 +57,76 @@ while True:
 
     # Tiny sleep for stability
     time.sleep(0.1)
+
+
+
+
+
+
+#Clean Way
+
+'''
+import time
+import pymavlink.mavutil as utility
+import pymavlink.dialects.v20.all as dialect
+
+# --- Connection ---
+# Establish connection to the flight controller (SITL or Real Drone)
+vehicle = utility.mavlink_connection(device="udpin:127.0.0.1:14560")
+
+# Wait for the first heartbeat to confirm connection
+vehicle.wait_heartbeat()
+print(f"Connected to System: {vehicle.target_system}")
+
+# --- Data Stream Configuration ---
+# Instead of waiting for random messages, we strictly request EXTENDED_SYS_STATE
+# We use the direct 'command_long_send' method to keep the code short
+vehicle.mav.command_long_send(
+    vehicle.target_system,
+    vehicle.target_component,
+    dialect.MAV_CMD_SET_MESSAGE_INTERVAL, # Command ID
+    0,                                    # Confirmation
+    dialect.MAVLINK_MSG_ID_EXTENDED_SYS_STATE, # Param 1: Message ID (245)
+    1e6,                                  # Param 2: Interval in microseconds (1 sec)
+    0, 0, 0, 0, 0                         # Params 3-7: Unused
+)
+
+print("Requested EXTENDED_SYS_STATE at 1Hz frequency...")
+
+# --- Monitoring Loop ---
+try:
+    while True:
+        # Wait specifically for the message by its string name 'EXTENDED_SYS_STATE'
+        # This is much cleaner than using the long dialect path
+        msg = vehicle.recv_match(type='EXTENDED_SYS_STATE', blocking=True)
+        
+        if msg:
+            # ACCESS DATA AS OBJECT ATTRIBUTES
+            # No need for .to_dict() or ["key"] - we use msg.field_name
+            state = msg.landed_state
+
+            # Mapping the numeric state to human-readable text
+            if state == dialect.MAV_LAND_ED_STATE_ON_GROUND:
+                status_text = "ON THE GROUND"
+            elif state == dialect.MAV_LANDED_STATE_TAKEOFF:
+                status_text = "TAKING OFF..."
+            elif state == dialect.MAV_LANDED_STATE_IN_AIR:
+                status_text = "IN THE AIR"
+            elif state == dialect.MAV_LANDED_STATE_LANDING:
+                status_text = "LANDING..."
+            else:
+                status_text = f"UNKNOWN STATE ({state})"
+
+            print(f">>> Current Drone Status: {status_text}")
+
+except KeyboardInterrupt:
+    print("\nMonitoring stopped by user.")
+
+finally:
+    # It's good practice to close the connection if your script ends
+    vehicle.close()
+    print("Connection closed.")
+
+
+
+'''
