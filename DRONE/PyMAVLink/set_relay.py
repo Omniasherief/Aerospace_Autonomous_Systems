@@ -56,6 +56,6 @@ repeat_relay_cmd = dialect.MAVLink_command_long_message(
 print("Sending: DO_REPEAT_RELAY (Instance 0 | Cycles: 3 | Period: 10s)")
 vehicle.mav.send(repeat_relay_cmd)
 
-print("\nRelay Command Sent! Check MAVProxy 'SIM_PIN_MASK' to see it toggle.")
+print("\nRelay Command Sent! Check MAVProxy 'SIM_PIN_MASKxxxxx--->watch PARAM_VALUE' to see it toggle.")
 
-#watch SIM_PIN_MASK
+#watch PARAM_VALUE
