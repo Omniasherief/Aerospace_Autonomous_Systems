@@ -28,6 +28,17 @@ message=dialect.MAVLink_mission_count_message(target_system=vehicle.target_syste
 # send mission count message to the vehicle
 vehicle.mav.send(message)
 # this loop will run until receive a valid MISSION_ACK message
+
+"""
+MISSION UPLOAD HANDSHAKE LOGIC:
+1. The script waits for a message from the vehicle (Drone).
+2. If 'MISSION_REQUEST': The drone is asking for a specific waypoint (seq).
+   - The script identifies the sequence number and sends the corresponding 
+     mission item (Home, Takeoff, or Waypoint).
+3. If 'MISSION_ACK': The drone has received all items.
+   - The script checks if 'MAV_MISSION_ACCEPTED' is returned to confirm 
+     a successful upload and breaks the loop.
+"""
 while True:
     message=vehicle.recv_match(type=['MISSION_REQUEST', 'MISSION_ACK'],blocking=True)
     #debugging
