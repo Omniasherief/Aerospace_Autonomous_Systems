@@ -2,7 +2,7 @@
 ---
 
 # 🛸 ArduPilot Lua Scripting & SITL Integration Guide
-### *On-Board Autonomy for Mechatronics Systems*
+### *On-Board Autonomy*
 
 ---
 
