@@ -67,7 +67,6 @@ return update() -- Initial call
 ### 🔍 Debugging Commands (MAVProxy)
 Use these commands to monitor the health of your scripts:
 * `status SCR_MEM`: Shows current RAM usage (Critical for preventing OOM).
-* `scripting list`: Displays all active scripts.
 * `scripting restart/stop [name]`: Halts a misbehaving script in real-time.
 
 ---
