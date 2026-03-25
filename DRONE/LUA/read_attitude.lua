@@ -1,0 +1,16 @@
+-- Function to read Attitude (Roll, Pitch, Yaw)
+function read_attitude()
+    -- ArduPilot now prefers _rad functions for better precision
+    local roll  = math.deg(ahrs:get_roll_rad())
+    local pitch = math.deg(ahrs:get_pitch_rad())
+    local yaw   = math.deg(ahrs:get_yaw_rad())
+
+    -- Send attitude readings to GCS Messages tab (Severity 7 = Debug)
+    gcs:send_text(7, string.format("Attitude -> Roll: %0.2f, Pitch: %0.2f, Yaw: %0.2f", roll, pitch, yaw))
+
+    -- Schedule the next call in 1000ms (1 second)
+    return read_attitude, 20000
+end
+
+-- Start the script
+return read_attitude()
