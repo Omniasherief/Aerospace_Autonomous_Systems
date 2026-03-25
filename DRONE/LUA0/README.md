@@ -74,6 +74,6 @@ Use these commands to monitor the health of your scripts:
 
 ## ⚠️ Critical Lessons Learned
 > **The docs.lua Trap:** Never place the `docs.lua` (API bindings) inside the `/scripts` folder. The flight controller will attempt to load its 1000+ lines into the 70kB RAM, causing an `Insufficient memory` crash loop. Keep it in your project root for IDE autocompletion only.
-
+`U can name it as docs.lua.txt or make new floder like i did in LUA0`
 ---
 
