@@ -1,0 +1,20 @@
+local target_location = Location()
+-- 1. Coordinates Scaling (High Precision)
+-- Latitude/Longitude are multiplied by 10^7.
+---- 4500 cm = 45 meters above home.
+target_location:relative_alt(true)
+target_location:lat(-353644593)
+target_location:lng(1491673712)
+target_location:alt(4000)
+
+function goto_location()
+    --Remaining Distance
+    -- get_wp_distance_m() returns the Euclidean distance between the drone and the target in meters.
+    gcs:send_text(7,"Target_distance: ".. vehicle:get_wp_distance_m().."meters")
+    vehicle:set_target_location(target_location)
+
+       return goto_location, 10000
+end
+
+-- start the script
+return goto_location()
