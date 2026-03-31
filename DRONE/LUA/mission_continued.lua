@@ -283,3 +283,11 @@ end
 
 -- Main Execution: Start the mission sequence by calling the first function
 return multi_location_mission()
+-- i got AP: Scripting: restarted
+-- AP: Switch does not exist for option 300
+-- AP: Switch does not exist for option 300
+-- AP: Switch does not exist for option 300
+---   sol ==
+--param show RC*_OPTION
+-- param set RC5_OPTION 300 
+-- rc 5 1000-> low 1500-> mid --> 2000 high
